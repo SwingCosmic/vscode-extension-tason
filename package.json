@@ -1,8 +1,9 @@
 {
   "name": "tason-language",
-  "displayName": "TASON Language Support",
+  "displayName": "TASON",
   "description": "Syntax highlighting for TASON",
   "author": "LoveKicher",
+  "publisher": "lovekicher",
   "repository": {
     "type": "git",
     "url": "https://github.com/SwingCosmic/vscode-extension-tason"
