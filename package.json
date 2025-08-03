@@ -1,0 +1,38 @@
+{
+  "name": "tason-language",
+  "displayName": "TASON Language Support",
+  "description": "Syntax highlighting for TASON",
+  "author": "LoveKicher",
+  "version": "0.0.3",
+  "scripts": {
+    "build": "vsce package"
+  },
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "tason",
+        "aliases": [
+          "TASON",
+          "tason"
+        ],
+        "extensions": [
+          ".tason"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "tason",
+        "scopeName": "source.tason",
+        "path": "./syntaxes/tason.tmLanguage.json"
+      }
+    ]
+  }
+}

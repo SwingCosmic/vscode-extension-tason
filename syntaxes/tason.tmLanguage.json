@@ -1,0 +1,274 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "information_for_contributors": [
+		"参考https://github.com/microsoft/vscode/blob/main/extensions/json/syntaxes/JSON.tmLanguage.json修改的"
+	],
+	"name": "tason",
+  "displayName": "TASON",
+  "fileTypes": [".tason"],
+	"scopeName": "source.tason",
+	"patterns": [
+		{
+			"include": "#value"
+		}
+	],
+	"repository": {
+		"array": {
+			"begin": "\\[",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.array.begin.tason"
+				}
+			},
+			"end": "\\]",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.definition.array.end.tason"
+				}
+			},
+			"name": "meta.structure.array.tason",
+			"patterns": [
+				{
+					"include": "#value"
+				},
+				{
+					"match": ",",
+					"name": "punctuation.separator.array.tason"
+				}
+			]
+		},
+		"comments": {
+			"patterns": [
+				{
+					"begin": "/\\*\\*(?!/)",
+					"captures": {
+						"0": {
+							"name": "punctuation.definition.comment.tason"
+						}
+					},
+					"end": "\\*/",
+					"name": "comment.block.documentation.tason"
+				},
+				{
+					"begin": "/\\*",
+					"captures": {
+						"0": {
+							"name": "punctuation.definition.comment.tason"
+						}
+					},
+					"end": "\\*/",
+					"name": "comment.block.tason"
+				},
+				{
+					"captures": {
+						"1": {
+							"name": "punctuation.definition.comment.tason"
+						}
+					},
+					"match": "(//).*$\\n?",
+					"name": "comment.line.double-slash.js"
+				}
+			]
+		},
+		"constant": {
+			"match": "\\b(?:true|false|null)\\b",
+			"name": "constant.language.tason"
+		},
+		"number": {
+			"patterns": [
+        {
+          "name": "constant.numeric.float.tason",
+          "match": "-?\\d*\\.\\d+([eE][+-]?\\d+)?"
+        },
+        {
+          "name": "constant.numeric.float.tason",
+          "match": "-?\\d+[eE][+-]?\\d+"
+        },
+        {
+          "name": "constant.numeric.integer.tason",
+          "match": "-?\\d+"
+        },
+        {
+          "name": "constant.numeric.hex.tason",
+          "match": "-?0x[0-9a-fA-F]+"
+        },
+        {
+          "name": "constant.numeric.octal.tason",
+          "match": "-?0o[0-7]+"
+        },
+        {
+          "name": "constant.numeric.binary.tason",
+          "match": "-?0b[01]+"
+        },
+        {
+          "name": "constant.numeric.special.tason",
+          "match": "-?(NaN|Infinity)\\b"
+        }
+      ]
+		},
+		"object": {
+			"begin": "\\{",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.dictionary.begin.tason"
+				}
+			},
+			"end": "\\}",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.definition.dictionary.end.tason"
+				}
+			},
+			"name": "meta.structure.dictionary.tason",
+			"patterns": [
+				{
+					"comment": "the TASON object key",
+					"include": "#objectkey"
+				},
+				{
+					"include": "#comments"
+				},
+				{
+					"begin": ":",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.separator.dictionary.key-value.tason"
+						}
+					},
+					"end": "(,)|(?=\\})",
+					"endCaptures": {
+						"1": {
+							"name": "punctuation.separator.dictionary.pair.tason"
+						}
+					},
+					"name": "meta.structure.dictionary.value.tason",
+					"patterns": [
+						{
+							"comment": "the TASON object value",
+							"include": "#value"
+						},
+						{
+							"match": "[^\\s,]",
+							"name": "invalid.illegal.expected-dictionary-separator.tason"
+						}
+					]
+				}
+			]
+		},
+		"strings": {
+			"patterns": [
+				{
+          "begin": "'",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.tason"
+            }
+          },
+          "end": "'",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.tason"
+            }
+          },
+          "name": "string.quoted.single.tason",
+          "patterns": [
+            {
+              "include": "#stringcontent"
+            }
+          ]
+        },
+				{
+          "begin": "\"",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.tason"
+            }
+          },
+          "end": "\"",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.tason"
+            }
+          },
+          "name": "string.quoted.double.tason",
+          "patterns": [
+            {
+              "include": "#stringcontent"
+            }
+          ]
+        }
+			]
+		},
+		"identifier": {
+      "patterns": [
+        {
+          "name": "variable.tason",
+          "match": "[a-zA-Z_][a-zA-Z0-9_]*"
+        }
+      ]
+    },
+		"objectkey": {
+			"patterns": [
+				{
+					"include": "#strings"
+				},
+				{
+					"include": "#identifier"
+				}
+			]
+		},
+		"stringcontent": {
+			"patterns": [
+				{
+					"match": "(?x)                # turn on extended mode\n  \\\\                # a literal backslash\n  (?:               # ...followed by...\n    [\"\\\\/bfnrt]     # one of these characters\n    |               # ...or...\n    u               # a u\n    [0-9a-fA-F]{4}) # and four hex digits",
+					"name": "constant.character.escape.tason"
+				},
+				{
+					"match": "\\\\.",
+					"name": "invalid.illegal.unrecognized-string-escape.tason"
+				}
+			]
+		},
+		"typeInstance": {
+      "name": "meta.structure.type-instance.tason",
+      "patterns": [
+        {
+          "begin": "([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\(",
+          "beginCaptures": {
+            "1": { "name": "entity.name.type.tason" }
+          },
+          "end": "\\)",
+          "patterns": [
+            { "include": "#strings" },
+            { "include": "#object" }
+          ]
+        }
+      ]
+    },
+		"value": {
+			"patterns": [
+				{
+					"include": "#constant"
+				},
+				{
+					"include": "#number"
+				},
+				{
+					"include": "#strings"
+				},
+				{
+					"include": "#array"
+				},
+				{
+					"include": "#typeInstance"
+				},
+				{
+					"include": "#object"
+				},
+				{
+					"include": "#comments"
+				}
+			]
+		}
+	}
+}
